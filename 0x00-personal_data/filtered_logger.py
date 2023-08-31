@@ -55,6 +55,7 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
+    '''Creating db'''
     DB_USER = os.getenv("PERSONAL_DATA_DB_USERNAME") or "root"
     DB_PASS = os.getenv("PERSONAL_DATA_DB_PASSWORD") or ""
     DB_HOST = os.getenv("PERSONAL_DATA_DB_HOST") or "localhost"
