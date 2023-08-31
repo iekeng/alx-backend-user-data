@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 '''filtered_logger'''
+import os
 import re
 import logging
+import msql.connector
 from typing import List
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
@@ -50,3 +52,13 @@ def get_logger() -> logging.Logger:
     logger.addHandler(handler)
 
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    DB_USER = os.getenv("PERSONAL_DATA_DB_USERNAME") or "root"
+    DB_PASS = os.getenv("PERSONAL_DATA_DB_PASSWORD") or ""
+    DB_HOST = os.getenv("PERSONAL_DATA_DB_HOST") or "localhost"
+    DB_NAME = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    return mysql.connector.connect(host=DB_HOST, user=DB_USER,
+                                   password=DB_PASSWORD, database=DB_NAME)
