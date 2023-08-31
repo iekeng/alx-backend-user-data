@@ -47,7 +47,7 @@ def get_logger() -> logging.Logger:
 
     handler = logging.StreamHandler()
     custom_fmt = RedactingFormatter(PII_FIELDS)
-    handler.setFormatter(formatter)
+    handler.setFormatter(custom_fmt)
 
     logger.addHandler(handler)
 
