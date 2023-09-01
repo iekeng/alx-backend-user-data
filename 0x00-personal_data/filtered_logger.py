@@ -66,6 +66,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 def main():
+    '''Works the db'''
     db = get_db()
     logger = get_logger()
     cursor = db.cursor()
