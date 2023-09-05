@@ -35,7 +35,7 @@ def unauth():
 
 
 @app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
-def forbidden() -> Response:
+def forbidden():
     """GET /api/v1/forbidden
     Trigger a 403
     """
