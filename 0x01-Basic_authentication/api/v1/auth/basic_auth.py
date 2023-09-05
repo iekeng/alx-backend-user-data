@@ -11,4 +11,4 @@ class BasicAuth(Auth):
     def __init__(self):
         """ Initialization function
         """
-        pass
+        super().__init__()
