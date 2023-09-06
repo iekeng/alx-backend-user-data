@@ -21,11 +21,9 @@ class Auth:
             return True
 
         elif path not in excluded_paths:
-            for _ in excluded_paths:
-                excluded = list(_)
-                excluded.pop()
-                url = list(path)
-                if url == excluded:
+            for excluded in excluded_paths:
+                prefix = excluded[:-1]
+                if path == prefix or path.startswith(prefix):
                     return False
             return True
 
