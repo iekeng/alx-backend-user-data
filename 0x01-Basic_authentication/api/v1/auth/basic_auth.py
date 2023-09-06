@@ -82,6 +82,8 @@ class BasicAuth(Auth):
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
+        """ Process current user details`
+        """
         if not request:
             return None
 
