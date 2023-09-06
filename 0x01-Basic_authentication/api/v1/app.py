@@ -33,6 +33,7 @@ def auth():
         auth = Auth()
     elif auth == 'basic_auth':
         auth = BasicAuth()
+        print(auth.__class__)
 
     if not auth.require_auth(request.path, excluded):
         return

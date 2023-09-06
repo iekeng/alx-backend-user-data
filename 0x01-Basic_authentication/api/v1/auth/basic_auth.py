@@ -3,7 +3,7 @@
 """
 import base64
 from api.v1.auth.auth import Auth
-
+from typing import TypeVar
 
 class BasicAuth(Auth):
     """ BasicAuth class
@@ -55,3 +55,11 @@ class BasicAuth(Auth):
             return None, None
         user_info = decoded_base64_authorization_header.split(':')
         return user_info[0], user_info[1]
+
+    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):
+        if user_email is None or not isinstance(user_email, str):
+            return None
+        if user_pwd is None or not isinstance(user_pwd, str):
+            return None
+        
+        
