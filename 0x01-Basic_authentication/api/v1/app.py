@@ -27,12 +27,14 @@ def auth():
         '/api/v1/forbidden/']
     auth = getenv("AUTH_TYPE")
 
-    if not auth:
-        return
-    elif auth == 'auth':
+    if auth and auth == 'auth':
         auth = Auth()
+        print(auth.__class__)
     elif auth == 'basic_auth':
         auth = BasicAuth()
+        print(auth.__class__)
+    elif auth is None:
+        return
 
     if not auth.require_auth(request.path, excluded):
         return
