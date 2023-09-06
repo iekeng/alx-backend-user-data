@@ -17,6 +17,7 @@ class BasicAuth(Auth):
         """
         super().__init__()
 
+
     def extract_base64_authorization_header(
             self, authorization_header: str) -> str:
         """ Header extractor
@@ -28,7 +29,9 @@ class BasicAuth(Auth):
 
         if authorization_header.startswith('Basic '):
             return authorization_header.split(' ')[-1]
-        return None
+        else:
+            return None
+
 
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
@@ -41,13 +44,14 @@ class BasicAuth(Auth):
             return None
 
         try:
-            header_encode = base64_authorization_header.encode('ascii')
+            header_encode = base64_authorization_header.encode('utf-8')
             data_bytes = base64.b64decode(header_encode)
 
-            return data_bytes.decode('ascii')
+            return data_bytes.decode('utf-8')
 
-        except base64.binascii.Error:
+        except (base64.binascii.Error, UnicodeDecodeError):
             return None
+
 
     def extract_user_credentials(
             self, decoded_base64_authorization_header: str) -> (str, str):
@@ -61,6 +65,7 @@ class BasicAuth(Auth):
             return None, None
         user_info = decoded_base64_authorization_header.split(':')
         return user_info[0], user_info[1]
+
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
@@ -79,3 +84,34 @@ class BasicAuth(Auth):
             if user.is_valid_password(user_pwd):
                 return user
         return None
+
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        if not request:
+            return None
+        
+        auth_header = self.authorization_header(request)
+        
+        if not auth_header:
+            return None
+
+        b64_header = self.extract_base64_authorization_header(auth_header)
+
+        if not b64_header:
+            return None
+
+        decoded_b64_header = self.decode_base64_authorization_header(b64_header)
+
+        if not decoded_b64_header:
+            return None
+
+        user_info = self.extract_user_credentials(decoded_b64_header)
+
+        if not user_info:
+            return None
+
+        user = self.user_object_from_credentials(user_info[0], user_info[-1])
+        return user
+
+
+
