@@ -33,7 +33,7 @@ def auth():
     elif auth == 'basic_auth':
         auth = BasicAuth()
     elif auth == 'session_auth':
-        auth == SessionAuth()
+        auth = SessionAuth()
     elif auth is None:
         return
 
