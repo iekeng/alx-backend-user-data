@@ -1,8 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python   3
 """Session auth module
 """
 from api.v1.auth.auth import Auth
 from uuid import uuid4
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -47,3 +48,14 @@ class SessionAuth(Auth):
 
         if session_id in sessions:
             return sessions[session_id]
+
+    def current_user(self, request=None):
+        session_id = self.session_cookie(request)
+
+        if not session_id:
+            return
+        user_id = self.user_id_for_session_id(session_id)
+
+        if not user_id:
+            return
+        return User.get(user_id)
