@@ -50,6 +50,8 @@ class SessionAuth(Auth):
             return sessions[session_id]
 
     def current_user(self, request=None):
+        """ Return current user based on session_id
+        """
         session_id = self.session_cookie(request)
 
         if not session_id:
