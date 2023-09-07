@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-Route module for the API
+    Route module for the API
 """
 from os import getenv
 from api.v1.views import app_views
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.session_auth import SessionAuth
 from flask import Flask, jsonify, abort, request, Blueprint
 from flask_cors import (CORS, cross_origin)
 import os
@@ -31,6 +32,8 @@ def auth():
         auth = Auth()
     elif auth == 'basic_auth':
         auth = BasicAuth()
+    elif auth == 'session_auth':
+        auth == SessionAuth()
     elif auth is None:
         return
 
