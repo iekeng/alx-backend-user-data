@@ -25,7 +25,8 @@ def auth():
     excluded = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
-        '/api/v1/forbidden/']
+        '/api/v1/forbidden/',
+        '/api/v1/auth_session/login/']
     auth = getenv("AUTH_TYPE")
 
     if auth and auth == 'auth':
@@ -39,7 +40,7 @@ def auth():
 
     if not auth.require_auth(request.path, excluded):
         return
-    elif auth.authorization_header(request) is None:
+    elif not auth.authorization_header(request) and not auth.session_cookie(request):
         return abort(401)
     elif auth.current_user(request) is None:
         return abort(403)
