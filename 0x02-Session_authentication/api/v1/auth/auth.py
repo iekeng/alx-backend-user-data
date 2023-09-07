@@ -2,6 +2,7 @@
 """Authentication module"""
 from flask import request
 from typing import List, TypeVar
+import os
 
 
 class Auth:
@@ -41,3 +42,18 @@ class Auth:
         """ Currently does nothing
         """
         return None
+
+    def session_cookie(self, request=None):
+        """ Retrive session cookie
+        """
+        if not request:
+            return None
+
+        cookies = request.cookies
+
+        if not cookies:
+            return None
+
+        session_name = os.getenv('SESSION_NAME')
+
+        return cookies.get(session_name)
