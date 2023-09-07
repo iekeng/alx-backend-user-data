@@ -36,11 +36,14 @@ class SessionAuth(Auth):
         if session_id is None:
             return None
 
-        elif not isinstance(session_id, str):
-            return None
+        if isinstance(session_id, str):
+            try:
+                return user_id_by_session_id.get(session_id)
 
-        try:
-            return user_id_by_session_id.get(session_id)
+            except NameError:
+                return None
 
-        except NameError:
-            return None
+        sessions = self.user_id_by_session_id
+
+        if session_id in sessions:
+            return sessions[session_id]
