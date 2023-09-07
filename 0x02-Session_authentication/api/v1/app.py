@@ -40,6 +40,7 @@ def auth():
         return abort(401)
     elif auth.current_user(request) is None:
         return abort(403)
+    request.current_user = auth.current_user(request)
 
 
 @app.errorhandler(404)
