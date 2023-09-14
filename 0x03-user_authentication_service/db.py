@@ -5,6 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
 
 
@@ -41,5 +43,14 @@ class DB:
 
         return new_user
 
-
-#    find_user_by():
+    def find_user_by(self, **kwargs):
+        """ find user by specification
+            which must be a key word arg
+        """
+        session = self._session
+        email = kwargs.get('email')
+        try:
+            result = session.query(User).filter(User.email == email).one()
+            return result
+        except (InvalidRequestError, NoResultFound):
+            raise
