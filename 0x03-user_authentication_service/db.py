@@ -48,9 +48,9 @@ class DB:
             which must be a key word arg
         """
         session = self._session
-        email = kwargs.get('email')
+        # email = kwargs.get('email')
         try:
-            result = session.query(User).filter(User.email == email).one()
+            result = session.query(User).filter(**kwargs).one()
             return result
         except (InvalidRequestError, NoResultFound):
             raise
