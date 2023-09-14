@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''User'''
+"""user module"""
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -8,11 +8,11 @@ Base = declarative_base()
 
 
 class User(Base):
-    ''' model for a database table named users
-    '''
+    """ model for a database table named users
+    """
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(250), nullable=False)
     hashed_password = Column(String(250), nullable=False)
     session_id = Column(String(250), nullable=True)
