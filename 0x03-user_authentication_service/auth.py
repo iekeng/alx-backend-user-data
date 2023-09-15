@@ -55,7 +55,7 @@ class Auth:
         except NoResultFound:
             return False
 
-    def _generate_uuid(self):
+    def _generate_uuid(self) -> str:
         """Return string representation of new uuid
         """
-        return uuid.uuid4()
+        return str(uuid.uuid4())
