@@ -10,7 +10,7 @@ AUTH = Auth()
 
 
 @app.route("/", methods=['GET'], strict_slashes=False)
-def home():
+def home() -> str:
     """home route view
     """
     msg = {"message": "Bienvenue"}
@@ -18,7 +18,7 @@ def home():
 
 
 @app.route("/users", methods=['POST'], strict_slashes=False)
-def users():
+def users() -> str:
     """user registration app
     """
     email = request.form.get('email')
