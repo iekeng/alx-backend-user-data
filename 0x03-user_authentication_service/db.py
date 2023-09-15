@@ -43,7 +43,7 @@ class DB:
 
         return new_user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """ find user by specification
             which must be a key word arg
         """
@@ -51,6 +51,6 @@ class DB:
         email = kwargs.get('email')
         try:
             result = session.query(User).filter(User.email == email).one()
-            return result
+            return type(result)
         except (InvalidRequestError, NoResultFound):
             raise
