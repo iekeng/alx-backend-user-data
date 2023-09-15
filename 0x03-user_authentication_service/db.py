@@ -18,7 +18,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -48,9 +48,9 @@ class DB:
             which must be a key word arg
         """
         session = self._session
-        # email = kwargs.get('email')
+        email = kwargs.get('email')
         try:
-            result = session.query(User).filter(**kwargs).one()
+            result = session.query(User).filter(User.email == email).one()
             return result
         except (InvalidRequestError, NoResultFound):
             raise
