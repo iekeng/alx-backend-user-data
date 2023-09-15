@@ -29,7 +29,6 @@ class Auth:
         """User registration method
         """
         db = self._db
-        session = db._session
         user_email = email
 
         try:
