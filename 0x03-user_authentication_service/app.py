@@ -21,13 +21,13 @@ def home() -> str:
 def users() -> str:
     """user registration app
     """
-    email = request.form.get('email')
+    user_email = request.form.get('email')
     password = request.form.get('password')
     try:
-        AUTH.register_user(email, password)
-        response = f'{"email": "{email}", "message": "user created"}'
-        return jsonify(response), 200
-
+        if AUTH.register_user(user_email, password):
+            response = {"email": user_email, "message": "user created"}
+            return jsonify(response), 200
+        return
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
