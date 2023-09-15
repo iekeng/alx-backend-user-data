@@ -17,6 +17,12 @@ def _hash_password(password: str) -> bytes:
     return hash
 
 
+def _generate_uuid() -> str:
+    """Return string representation of new uuid
+    """
+    return str(uuid4())
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -55,7 +61,13 @@ class Auth:
         except NoResultFound:
             return False
 
-    def _generate_uuid(self) -> str:
-        """Return string representation of new uuid
-        """
-        return str(uuid4())
+    def create_session(self, email: str) -> str:
+        db = self._db
+        user_email = email
+        try:
+            user = db.find_user_by(email=user_email)
+            session_id = _generate_uuid()
+            db.update_user(user.id, session_id=session_id)
+            return session_id
+        except NoResultFound:
+            return None
