@@ -48,22 +48,11 @@ class DB:
             which must be a key word arg
         """
         session = self._session
-        email = kwargs.get('email')
-        id = kwargs.get('id')
-        if email:
-            try:
-                user = session.query(User).filter(User.email == email).one()
-                return user
-            except NoResultFound:
-                raise
-        elif id:
-            try:
-                user = session.query(User).filter(User.id == id).one()
-                return user
-            except NoResultFound:
-                raise
-
-        raise InvalidRequestError
+        try:
+            user = session.query(User).filter_by(**kwargs).one()
+            return user
+        except (NoResultFound, InvalidRequestError):
+            raise
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update user by *arg
@@ -77,7 +66,7 @@ class DB:
         for key, val in kargs:
             if key not in attr:
                 raise ValueError
-            setattr(user, key, val)
+        setattr(user, key, val)
 
         session.add(user)
         session.commit()
