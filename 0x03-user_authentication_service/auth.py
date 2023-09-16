@@ -97,9 +97,11 @@ class Auth:
         """
         db = self._db
         token = _generate_uuid()
+
         try:
             user = db.find_user_by(email=email)
-            user.reset_token = token
-            return token
         except (NoResultFound, InvalidRequestError):
             raise ValueError
+
+        user.reset_token = token
+        return token
