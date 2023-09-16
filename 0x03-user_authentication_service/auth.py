@@ -95,11 +95,13 @@ class Auth:
     def get_reset_password_token(email: str) -> str:
         """generate reset token
         """
+        db = self._db
+        token = _generate_uuid()
         try:
-            user = self._db.find_user_by(email=email)
-            token = _generate_uuid()
-            self._db.update_user(user.id, reset_token=token)
+            user = db.find_user_by(email=email)
+            user.reset_token = token
 
             return token
+
         except NoResultFound:
             raise ValueError
