@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """flask app module
 """
-from flask import Flask, jsonify, request, abort
+from flask import (Flask, jsonify,
+                   request, abort, redirect)
 from auth import Auth
 from user import User
 
@@ -33,7 +34,7 @@ def users() -> str:
 
 
 @app.route("/sessions", methods=['POST'], strict_slashes=False)
-def login() ->:
+def login():
     """ User login app
     """
     email = request.form.get('email')
@@ -58,6 +59,20 @@ def logout():
         AUTH.destroy_session(user.id)
         redirect("/")
     abort(403)
+
+
+@app.route("/profile", methods=['GET'], strict_slashes=False)
+def profile():
+    """ returns user profile
+    """
+    session_id = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(session_id=session_id)
+
+    if not user:
+        abort(403)
+    email = user.email
+    response = {"email": email}
+    return jsonify(response), 200
 
 
 if __name__ == "__main__":
