@@ -91,3 +91,15 @@ class Auth:
         """
         user = self._db.find_user_by(id=user_id)
         user.session_id = None
+
+    def get_reset_password_token(email: str) -> str:
+        """generate reset token
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            reset_token = _generate_uuid()
+            user.reset_token = reset_token
+
+            return reset - token
+        except NoResultFound:
+            raise ValueError
